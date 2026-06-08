@@ -104,13 +104,26 @@ On every content change to `index.html`, bump all three to the same date:
 2. **Push** scaffolded site to `main`.
 3. **Enable GitHub Pages**: Settings → Pages → deploy from `main` / root. Add custom domain
    `olgahelenowalker.com` (writes/uses the `CNAME` file) and enable "Enforce HTTPS".
-4. **DNS at the registrar** for `olgahelenowalker.com`:
-   - Apex `A` records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
-     `185.199.111.153` (GitHub Pages).
-   - (Optional) `AAAA` records → GitHub's IPv6 set.
-   - `www` `CNAME` → `alexswalker.github.io`.
+4. **DNS at Cloudflare** for `olgahelenowalker.com` (the domain's DNS is managed by
+   Cloudflare):
+   - Apex: four `A` records → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`,
+     `185.199.111.153` (GitHub Pages). Cloudflare supports apex records directly.
+   - `www`: `CNAME` → `alexswalker.github.io`.
+   - **Proxy status: start DNS-only (grey cloud).** GitHub must reach the origin to issue
+     the Let's Encrypt cert and let "Enforce HTTPS" go green. Once that's confirmed, the
+     records can be switched to Proxied (orange cloud) — at which point set Cloudflare
+     **SSL/TLS mode to Full** (not Flexible) to avoid redirect loops.
 5. **Verify** after propagation: `curl -sSI https://olgahelenowalker.com/` (200 + HTTPS),
    and `www → apex` 301.
+
+### Optional Phase 1.5 — edge security headers (Cloudflare)
+
+Because this domain is on Cloudflare (unlike `alexwalker.net`), the header-based spec items
+that GitHub Pages can't satisfy *can* be met here once the records are Proxied (orange):
+`Strict-Transport-Security` (HSTS) and `X-Content-Type-Options: nosniff` from SSL/TLS → Edge
+Certificates; `Content-Security-Policy: frame-ancestors 'none'` + `X-Frame-Options: DENY` via
+a Transform Rule (Modify Response Header). Mirrors the target config already documented in
+Alex's repo. Not required for launch.
 
 ## Out of scope (Phase 1)
 
