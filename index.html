@@ -793,5 +793,57 @@
   <p>Last updated <time datetime="2026-06-08">8 June 2026</time></p>
 </footer>
 
+<script>
+(function () {
+  var WORKER_URL = 'https://contact-api.olgahelenowalker.com/';
+  var form = document.getElementById('enquiry-form');
+  if (!form) return;
+
+  var submitBtn = form.querySelector('.form-submit');
+  var statusEl = form.querySelector('.form-status');
+
+  function setStatus(type, text) {
+    statusEl.className = 'form-status' + (type ? ' ' + type : '');
+    statusEl.textContent = text;
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    setStatus('', 'Sending…');
+
+    var tokenInput = form.querySelector('[name="cf-turnstile-response"]');
+    var data = {
+      name: form.querySelector('[name="name"]').value.trim(),
+      email: form.querySelector('[name="email"]').value.trim(),
+      phone: form.querySelector('[name="phone"]').value.trim(),
+      message: form.querySelector('[name="message"]').value.trim(),
+      company: form.querySelector('[name="company"]').value,
+      'cf-turnstile-response': tokenInput ? tokenInput.value : '',
+    };
+
+    fetch(WORKER_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    })
+    .then(function (res) { return res.json(); })
+    .then(function (json) {
+      if (json.ok) {
+        form.reset();
+        if (window.turnstile) window.turnstile.reset();
+        setStatus('success', 'Thank you — your enquiry has been sent. Olga will be in touch shortly.');
+      } else {
+        setStatus('error', json.error || 'Something went wrong. Please try again.');
+      }
+      submitBtn.disabled = false;
+    })
+    .catch(function () {
+      setStatus('error', 'Sorry, your enquiry could not be sent. Please check your connection and try again.');
+      submitBtn.disabled = false;
+    });
+  });
+}());
+</script>
 </body>
 </html>
