@@ -1,0 +1,23 @@
+name = "olga-contact-worker"
+main = "src/index.js"
+compatibility_date = "2024-09-23"
+account_id = "TODO_CLOUDFLARE_ACCOUNT_ID"
+
+[[kv_namespaces]]
+binding = "RATE_LIMIT_KV"
+id = "TODO_KV_NAMESPACE_ID"
+
+[vars]
+ALLOWED_ORIGIN = "https://olgahelenowalker.com"
+RECIPIENT_EMAIL = "TODO_RECIPIENT_EMAIL"
+FROM_EMAIL = "TODO_FROM_EMAIL"
+
+# Deploying sets up a DNS CNAME at contact-api.olgahelenowalker.com automatically.
+# The apex A records for GitHub Pages are not affected.
+[[routes]]
+pattern = "contact-api.olgahelenowalker.com"
+custom_domain = true
+
+# Secrets — set via CLI, never in this file:
+#   cd worker && npx wrangler secret put TURNSTILE_SECRET
+#   cd worker && npx wrangler secret put RESEND_API_KEY
