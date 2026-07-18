@@ -1,0 +1,7 @@
+# Local dev screenshots / Playwright artifacts — not site assets
+.playwright-mcp/
+background-section.png
+contact-section.png
+contact-v2.png
+creds-section.png
+full-page.png
