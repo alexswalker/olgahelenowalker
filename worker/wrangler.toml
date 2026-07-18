@@ -1,16 +1,16 @@
 name = "olga-contact-worker"
 main = "src/index.js"
 compatibility_date = "2024-09-23"
-account_id = "TODO_CLOUDFLARE_ACCOUNT_ID"
+account_id = "dd404d6efe253bcc62e9ee0d52f16afe"
 
 [[kv_namespaces]]
 binding = "RATE_LIMIT_KV"
-id = "TODO_KV_NAMESPACE_ID"
+id = "ab5e4987ef49421ea04d222105fcf1a2"
 
 [vars]
 ALLOWED_ORIGIN = "https://olgahelenowalker.com"
 RECIPIENT_EMAIL = "therapy@olgahelenowalker.com"
-FROM_EMAIL = "TODO_FROM_EMAIL"
+FROM_EMAIL = "olga@olgahelenowalker.com"
 
 # Deploying sets up a DNS CNAME at contact-api.olgahelenowalker.com automatically.
 # The apex A records for GitHub Pages are not affected.
