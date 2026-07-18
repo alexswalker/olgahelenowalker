@@ -9,7 +9,7 @@ id = "TODO_KV_NAMESPACE_ID"
 
 [vars]
 ALLOWED_ORIGIN = "https://olgahelenowalker.com"
-RECIPIENT_EMAIL = "TODO_RECIPIENT_EMAIL"
+RECIPIENT_EMAIL = "therapy@olgahelenowalker.com"
 FROM_EMAIL = "TODO_FROM_EMAIL"
 
 # Deploying sets up a DNS CNAME at contact-api.olgahelenowalker.com automatically.
